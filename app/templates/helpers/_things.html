@@ -1,0 +1,36 @@
+<table class="table table-condensed table-bordered">
+	<thead>
+		<tr>
+			<th>{{_('Item')}}</th>
+			<th>{{_('Price')}}</th>
+			<th>{{_('Stock')}}</th>
+			<th>{{_('Measure')}}</th>
+			<th>{{_('Assembled')}}</th>
+			<th>{{_('Marketable')}}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for thing in things %}
+			<tr>
+				<td>{{ thing.name }}</td>
+				<td>{{ thing.price }}</td>
+				<td>{{ thing.stock }}</td>
+				<td>{{ thing.measure.name }}</td>
+				<td>
+					{% if thing.type.assembled %}
+						<span class="glyphicon glyphicon-ok"></span>
+					{% else %}
+						<span class="glyphicon glyphicon-remove"></span>
+					{% endif %}
+				</td>
+				<td>
+					{% if thing.type.marketable %}
+						<span class="glyphicon glyphicon-ok"></span>
+					{% else %}
+						<span class="glyphicon glyphicon-remove"></span>
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

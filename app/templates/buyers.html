@@ -1,0 +1,15 @@
+{% import "helpers/_macros.html" as macros %}
+
+
+{% extends "base.html" %}
+{% block page_header %}
+	<h1>{{_('Buyers')}}</h1>
+{% endblock page_header %}
+{% block page_body %}
+	{% include 'helpers/_buyers.html' %}
+	{% if pagination %}
+		<div class="pagination">
+			{{ macros.pagination_widget(pagination, '.buyers') }}
+		</div>
+	{% endif %}
+{% endblock page_body %}

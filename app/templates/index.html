@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block page_header %}
+	<h1>
+			{% if user.is_authenticated %}
+				{{ user.fullname }}
+			{% else %}
+				{{_('Log in please')}}
+		{% endif %}
+	</h1>
+	<h2>
+		{% if num_of_tasks %}
+			{{_('You\'ve got %(num)s tasks. Go to the profile to read them.', num=num_of_tasks)}}
+		{% endif %}
+	</h2>
+{% endblock page_header %}
+{% block page_body %}
+	{% if tasks %}
+		<h2> You have the following tasks:</h2>
+		{% for task in tasks %}
+			<div><p>{% if task.state==1 %} uncompleted
+			{% else %}                     complited
+			{% endif %}
+			task from {{ task.author.nickname }}: <b>{{ task.body }}</b></p></div>
+		{% endfor %}
+	{% endif %}
+{% endblock page_body %}

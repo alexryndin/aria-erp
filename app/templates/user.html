@@ -1,0 +1,55 @@
+{% import "helpers/_macros.html" as macros %}
+
+
+{% extends "base.html" %}
+{% block page_header %}
+	<img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=40) }}">
+	<div class="profile-header">
+		<h1>
+			{{_('User')}}: {{ user.nickname }} - {{ user.fullname }}
+		</h1>
+
+		{% if current_user==user %}
+			{% if current_user.is_allowed(Permission.ADMINISTRATING) %}
+            <a class="btn btn-default"
+               href="{{ url_for('.edit_profile_admin', nickname=user.nickname) }}">
+	            {{_('Edit Profile')}}
+            </a>
+			{% else %}
+			<a class="btn btn-default" href="{{ url_for('.edit_profile') }}">{{_('Edit Profile')}}</a>
+			{% endif %}
+		{% elif current_user.is_allowed(Permission.ADMINISTRATING) %}
+            <a class="btn btn-danger"
+                    href="{{ url_for('.edit_profile_admin', nickname=user.nickname) }}">
+	            {{_('Edit Profile')}} [Admin]
+            </a>
+		{% endif %}
+		{% if user==current_user and current_user.is_allowed(Permission.USER_M) %}
+			<a class="btn btn-default"
+               href="{{ url_for('.add_new_task') }}">
+	             {{_('New task')}}
+            </a>
+		{% endif %}
+		{% if user==current_user and current_user.is_allowed(Permission.DEPOT_M) %}
+			<a class="btn btn-default"
+               href="{{ url_for('.depot') }}">
+	             {{_('Depot')}}
+            </a>
+		{% endif %}
+		<a class="btn btn-default" href="{{ url_for('.products') }}">
+			{{_('Products')}}
+		</a>
+
+	</div>
+{% endblock page_header %}
+{% block page_body %}
+	{% if tasks %}
+		<h2> {{_('You have the following tasks')}}:</h2>
+		{% include 'helpers/_tasks.html' %}
+		{% if pagination %}
+			<div class="pagination">
+				{{ macros.pagination_widget(pagination, '.user', nickname=user.nickname) }}
+			</div>
+		{% endif %}
+	{% endif %}
+{% endblock page_body %}
